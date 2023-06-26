@@ -1,0 +1,19 @@
+CQRS separates the command operations to the Query operations : 
+
+Query : expects some sort of response back 
+(think GETALL and GETBYID)
+
+Command : doesnt expect a response, but performs an operation behind the scenes 
+(think CREATE DELETE UPDATE)
+
+Using Mediator we can specify command vs query by changind the interface as follows : 
+
+for Query : 
+    public class Query : IRequest<ResponseType> { InputProps }
+
+    public class Handler : IRequestHandler<Query, string> {...}
+
+for Command : 
+    public class Command : IRequest { InputProps }
+
+    public class Handler : IRequestHandler<Command> {...}

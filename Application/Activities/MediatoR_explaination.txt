@@ -1,0 +1,15 @@
+Using clean architecture we want our dependancy to go like : 
+
+API (Handle Http requests) ==> Application (the logic (for example CRUD ops)) => Domain (the data model object) <= Persistence (so esentially the DB)
+
+No dependency will flow the other direction 
+
+We use the API layer to send requests to the Application layer that ineracts with the DBcontext and applies logic to the data. 
+
+Since the Application cant depand on the API layer (ie. no imports ...)
+
+We use mediator to send the responses for the requests back the API layer without depending on it. 
+
+We use a IRequest interface to catch the request and an IHandler interface to apply logic and respond back to the API layer without any dependancy.
+
+(note: we need to add mediator as a service in program.cs for the setup to work)
