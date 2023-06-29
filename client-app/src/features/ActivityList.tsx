@@ -1,4 +1,3 @@
-import react from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { Activity } from '../app/models/activity';
 
@@ -6,16 +5,18 @@ interface Props {
     activities: Activity[];
     selectedActivity : Activity | undefined;
     selectActivity : (id : string) => void;
+    deleteActivity : (id : string) => void;
 }
 
 export default function ActivityList({
     activities, 
     selectedActivity, 
-    selectActivity } : Props) {
+    selectActivity,
+    deleteActivity } : Props) {
     return(
         <Segment>
             <Item.Group> 
-            {activities.map((activitiy: Activity) => (
+            {activities.map(activitiy => (
             // when looping over, each item must have a unique key
                 <Item key={activitiy.id}> 
                     <Item.Content>
@@ -27,6 +28,7 @@ export default function ActivityList({
                         </Item.Description>
                         <Item.Extra>
                             <Button onClick={() => {selectActivity(activitiy.id)}} floated='right' content='View' color='blue'/>
+                            <Button onClick={() => {deleteActivity(activitiy.id)}} floated='right' content='delete' color='red'/>
                             <Label basic content={activitiy.category}/>
                         </Item.Extra>
                     </Item.Content>

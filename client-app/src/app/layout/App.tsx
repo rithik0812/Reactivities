@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
-import { Container, Header, List } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
-
+import {v4 as uuid} from 'uuid';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -45,6 +45,21 @@ function App() {
     setEditMode(false);
   }
 
+  function handleCreateOrEditActivity(activity : Activity) {
+    // if we are editing an activity then activity.id is present
+    // if its present then replace the old instance of the activity with the edited one using destructuring
+    // if its not present then add the new activity using destructuring
+    activity.id
+      ? setActivities([...activities.filter(x => x.id !== activity.id), activity])
+      : setActivities([...activities, {...activity, id: uuid()}]) // uuid creates a new id, we destructure to implement the id
+
+    setEditMode(false);
+    setSelectedActivity(activity);
+  }
+
+  function handleDeleteActivity(id : string){
+    setActivities([...activities.filter(x => x.id !== id)]); // filter everything except the id given and set state
+  }
 
   return (
     // without a fragment or a div (or a <></>) we cant return 2 or more child components (NavBar and Container)
@@ -59,6 +74,8 @@ function App() {
         editMode={editMode}
         openForm={handleFormOpen}
         closeForm={handleFormClose}
+        createOrEdit={handleCreateOrEditActivity}
+        deleteActivity={handleDeleteActivity}
         />
       </Container>  
     </Fragment>
