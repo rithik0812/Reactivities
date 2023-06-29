@@ -4,9 +4,11 @@ import { Activity } from '../../../app/models/activity';
 
 interface Props {
     activity: Activity;
+    cancelSelectedActivity : () => void;
+    openForm : (id : string) => void;
 }
 
-export default function ActivityDetails({activity} : Props) {
+export default function ActivityDetails({activity, cancelSelectedActivity, openForm} : Props) {
     return (
         // note the card template is taken from the semantic ui docs
         // the `` allows us to enter javascript in the string
@@ -23,8 +25,8 @@ export default function ActivityDetails({activity} : Props) {
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths='2'>
-                    <Button basic color='blue' content='Edit' />
-                    <Button basic color='grey' content='Cancel' />
+                    <Button onClick={() => {openForm(activity.id)}} basic color='blue' content='Edit' />
+                    <Button onClick={cancelSelectedActivity} basic color='grey' content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>
